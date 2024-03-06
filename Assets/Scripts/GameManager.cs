@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject winPanel; // Assign in the inspector
     public GameObject losePanel; // Assign in the inspector
-
+    public AdsManager adsmanager;
     private int currentLevel = 1; // Starting level
 
     private void Start()
@@ -31,6 +31,12 @@ public class GameManager : MonoBehaviour
         limitText.text = movesLeft.ToString();
         scoreText.text = "SCORE: " + currentScore.ToString() + "/" + scoreToWin;
         lvlText.text = "Level " + currentLevel.ToString();
+    }
+
+    private void Update()
+    {
+        scoreText.text = "SCORE: " + currentScore.ToString() + "/" + scoreToWin;
+
     }
 
     public void AddScore(int scoreToAdd)
@@ -74,6 +80,8 @@ public class GameManager : MonoBehaviour
     {
         currentLevel++;
         PlayerPrefs.SetInt("currentLevel", currentLevel);
+        adsmanager.adpoints += 5;
+        PlayerPrefs.SetInt("adpoints",adsmanager.adpoints);
 
         // Increment scoreToWin for the next level and save it
         scoreToWin += 30; // Increase scoreToWin by 100 points for each new level
