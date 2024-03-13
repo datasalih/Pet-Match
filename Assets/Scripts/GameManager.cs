@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
     {
         currentLevel = PlayerPrefs.GetInt("currentLevel", 1); // Load the current level or default to 1
         scoreToWin = PlayerPrefs.GetInt("scoreToWin", 300); // Load scoreToWin or default to 300
+
+        int extraMoves = (currentLevel - 1) / 5; // Every 5 levels, increase movesLeft by 1
+        movesLeft += extraMoves;
+
         UpdateUI();
         winPanel.SetActive(false);
         losePanel.SetActive(false);
@@ -81,15 +85,15 @@ public class GameManager : MonoBehaviour
         currentLevel++;
         PlayerPrefs.SetInt("currentLevel", currentLevel);
         adsmanager.adpoints += 5;
-        PlayerPrefs.SetInt("adpoints",adsmanager.adpoints);
+        PlayerPrefs.SetInt("adpoints", adsmanager.adpoints);
 
         // Increment scoreToWin for the next level and save it
-        scoreToWin += 30; // Increase scoreToWin by 100 points for each new level
+        scoreToWin += 20; // Increase scoreToWin by 100 points for each new level
         PlayerPrefs.SetInt("scoreToWin", scoreToWin); // Save the new scoreToWin
         PlayerPrefs.Save();
 
-        string nextLevelSceneName = "Level" + currentLevel;
-        SceneManager.LoadScene(nextLevelSceneName);
+        //string nextLevelSceneName = "Level" + currentLevel;
+        SceneManager.LoadScene(0);
     }
 
     public void RestartLevel()
@@ -100,6 +104,11 @@ public class GameManager : MonoBehaviour
         UpdateUI();
 
         // Reload the current level without changing the scoreToWin
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(0);
+    }
+
+    private void OnDestroy()
+    {
+       // PlayerPrefs.DeleteAll();
     }
 }

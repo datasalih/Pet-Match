@@ -3,11 +3,15 @@ using UnityEngine.UI;
 using UnityEngine.Advertisements;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
+
 using Unity.VisualScripting;
 
 public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
 {
+
+    public static AdsManager Instance;
+
+
     [SerializeField] string _androidAdUnitId = "Rewarded_Android";
 
     string _adUnitId;
@@ -45,7 +49,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
 
     private void Update()
     {
-        adpointstxt.text = "+" +adpoints.ToString() + "Pts";
+        adpointstxt.text = "+" +adpoints.ToString();
     }
     public void OnInitializationComplete()
     {
@@ -126,7 +130,11 @@ public class AdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLis
 
 
         // Clean up the button listeners:
-        _showAdButton.onClick.RemoveAllListeners();
+        if (Instance == this)
+        {
+            // Clean up
+            _showAdButton.onClick.RemoveAllListeners();
+        }
     }
 
 
